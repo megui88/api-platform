@@ -1,5 +1,5 @@
-let Promise = require('bluebird');
-let storage = require('./StorageService');
+const Promise = require('bluebird');
+const storage = require('developmentsoftware-api-commons').storage;
 const uuidV4 = require('uuid/v4');
 
 class PlatformService {
