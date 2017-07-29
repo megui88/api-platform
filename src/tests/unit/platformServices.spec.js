@@ -1,18 +1,13 @@
 const expect = require('chai').expect;
-
-const storage = require('../../resources/StorageService');
-
+const storage = require('developmentsoftware-api-commons').storage;
 const platform = require('../../resources/PlatformService');
-
 const Promise = require('bluebird');
 
 describe('The platform service happy pass', () => {
 
     it('try get all platforms ', function (done) {
-
         this.sandbox.stub(storage, 'getCollection').callsFake(findObject);
-        const promise = platform.all();
-        promise
+        platform.all()
             .then(data => {
                 expect(data.length).to.be.equal(2);
                 done();
@@ -20,7 +15,6 @@ describe('The platform service happy pass', () => {
     });
 
     it('try get one platform ', function (done) {
-
         this.sandbox.stub(storage, 'getCollection').callsFake(updatedObject);
         const promise = platform.get('one-id-fake');
         promise.then(data => {
@@ -30,12 +24,8 @@ describe('The platform service happy pass', () => {
     });
 
     it('try get one platform but not exist', function (done) {
-
         this.sandbox.stub(storage, 'getCollection').callsFake(notFoundObject);
-
-        const promise = platform.get('one-id-fake');
-
-        promise
+        platform.get('one-id-fake')
             .then(() => {
                 done();
                 throw new Error('Check this!');
@@ -47,14 +37,12 @@ describe('The platform service happy pass', () => {
     });
 
     it('try create one platform', function (done) {
-
         this.sandbox.stub(storage, 'getCollection').callsFake(insertObject);
         const promise = platform.create(
             {
                 name: 'newPlatform',
                 type: 'example'
             });
-
         promise
             .then(data => {
                 expect(data.id).to.be.a('string');
@@ -65,14 +53,11 @@ describe('The platform service happy pass', () => {
     });
 
     it('try update name ', function (done) {
-
         this.sandbox.stub(storage, 'getCollection').callsFake(updatedObject);
         let updateObject = {
             name: 'goodPlatform'
         };
-
         const promise = platform.update('one-id-fake', updateObject);
-
         promise
             .then(data => {
                 expect(data.id).to.be.a('string');
@@ -83,14 +68,11 @@ describe('The platform service happy pass', () => {
     });
 
     it('try update type ', function (done) {
-
         this.sandbox.stub(storage, 'getCollection').callsFake(updatedObject);
         let updateObject = {
             type: 'e-commerce'
         };
-
         const promise = platform.update('one-id-fake', updateObject);
-
         promise
             .then(data => {
                 expect(data.id).to.be.a('string');
@@ -104,13 +86,9 @@ describe('The platform service happy pass', () => {
 
 describe('The platform service fail', () => {
 
-
     it('try get all platforms ', function (done) {
-
         this.sandbox.stub(storage, 'getCollection').callsFake(failObject);
-        const promise = platform.all();
-
-        promise
+        platform.all()
             .then(() => {
                 done();
                 throw new Error('Check this!');
@@ -122,11 +100,8 @@ describe('The platform service fail', () => {
     });
 
     it('try get one platform ', function (done) {
-
         this.sandbox.stub(storage, 'getCollection').callsFake(failObject);
-        const promise = platform.get('one-id-fake');
-
-        promise
+        platform.get('one-id-fake')
             .then(() => {
                 done();
                 throw new Error('Check this!');
@@ -138,15 +113,12 @@ describe('The platform service fail', () => {
     });
 
     it('try create one platform ', function (done) {
-
         this.sandbox.stub(storage, 'getCollection').callsFake(failObject);
-
         const promise = platform.create(
             {
                 name: 'onePlatform',
                 type: 'oneType'
             });
-
         promise
             .then(() => {
                 done();
@@ -159,15 +131,11 @@ describe('The platform service fail', () => {
     });
 
     it('try update one platform ', function (done) {
-
         this.sandbox.stub(storage, 'getCollection').callsFake(failObject);
-
         let updateObject = {
             name: 'myPlatform',
         };
-
         const promise = platform.update('one-id-fake', updateObject);
-
         promise
             .then(() => {
                 done();
