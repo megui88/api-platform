@@ -1,0 +1,32 @@
+{
+  "name": "api-platform",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./app/bin/www",
+    "tests": "NODE_ENV=test mocha './tests/**/*.spec.js'; istanbul cover _mocha $(find ./tests -name \"*.spec.js\" -not -path \"./node_modules/*\")",
+    "coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls"
+  },
+  "dependencies": {
+    "bluebird": "^3.5.0",
+    "body-parser": "~1.17.1",
+    "chai-http": "^3.0.0",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.3",
+    "dotenv": "^4.0.0",
+    "express": "~4.15.2",
+    "istanbul": "^0.4.5",
+    "mongodb": "^2.2.28",
+    "morgan": "~1.8.1",
+    "pug": "~2.0.0-beta11",
+    "serve-favicon": "~2.4.2",
+    "uuid": "^3.0.1"
+  },
+  "devDependencies": {
+    "coveralls": "^2.13.1",
+    "chai": "^4.0.2",
+    "mocha": "^3.4.2",
+    "sinon": "^2.3.5",
+    "sinon-chai": "^2.11.0"
+  }
+}
