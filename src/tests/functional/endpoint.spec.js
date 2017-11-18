@@ -4,6 +4,20 @@ const expect = chai.expect;
 const chaiHttp = require('chai-http');
 const server = require('../../app');
 const storage = require('developmentsoftware-api-commons').storage;
+
+const elemets = [
+    {
+        id: 'one-id-fake',
+        name: 'YouPlatform',
+        type: 'social',
+    },
+    {
+        id: 'other-id-fake',
+        name: 'OtherPlatform',
+        type: 'e-commerce',
+    }
+];
+
 chai.use(chaiHttp);
 
 describe('/GET not found', () => {
@@ -22,9 +36,11 @@ describe('/GET not found', () => {
 describe('/GET platforms', () => {
     it('it should GET all platforms', function (done) {
         this.sandbox.stub(client.MongoClient, 'connect').callsFake(successObject);
+        storage.db = null;
         chai.request(server)
             .get('/platforms')
             .end((err, res) => {
+            console.log(err);
                 expect(res).have.status(200);
                 expect(res.body).to.be.a('array');
                 expect(res.body.length).to.be.eql(2);
@@ -34,6 +50,7 @@ describe('/GET platforms', () => {
 
     it('it should GET one platform', function (done) {
         this.sandbox.stub(client.MongoClient, 'connect').callsFake(successObject);
+        storage.db = null;
         chai.request(server)
             .get('/platforms/one-id-fake')
             .end((err, res) => {
@@ -46,6 +63,7 @@ describe('/GET platforms', () => {
 
     it('it should POST the platform', function (done) {
         this.sandbox.stub(client.MongoClient, 'connect').callsFake(successObject);
+        storage.db = null;
         chai.request(server)
             .post('/platforms')
             .send({
@@ -64,6 +82,7 @@ describe('/GET platforms', () => {
 
     it('it should PATH the platform', function (done) {
         this.sandbox.stub(client.MongoClient, 'connect').callsFake(successObject);
+        storage.db = null;
         chai.request(server)
             .patch('/platforms/one-id-fake')
             .send({
@@ -80,6 +99,7 @@ describe('/GET platforms', () => {
 
     it('it should PUT the platform', function (done) {
         this.sandbox.stub(client.MongoClient, 'connect').callsFake(successObject);
+        storage.db = null;
         chai.request(server)
             .put('/platforms/one-id-fake')
             .send({
@@ -98,8 +118,8 @@ describe('/GET platforms', () => {
 
 describe('/GET platforms fail', () => {
     it('it should GET all the platforms', function (done) {
-        storage.db = null;
         this.sandbox.stub(client.MongoClient, 'connect').callsFake(failObject);
+        storage.db = null;
         chai.request(server)
             .get('/platforms')
             .end((err, res) => {
@@ -109,9 +129,9 @@ describe('/GET platforms fail', () => {
             });
     });
     it('it should GET force prod env', function (done) {
-        storage.db = null;
         server.set('env', 'prod');
         this.sandbox.stub(client.MongoClient, 'connect').callsFake(failObject);
+        storage.db = null;
         chai.request(server)
             .get('/platforms')
             .end((err, res) => {
@@ -125,7 +145,6 @@ describe('/GET platforms fail', () => {
 
 // Mock Objects
 function successObject() {
-
     return new Promise((resolv) => {
         resolv({
                 collection: () => {
@@ -149,18 +168,7 @@ function successObject() {
                                 return {
                                     toArray: () => {
                                         return new Promise((resolv) => {
-                                            resolv([
-                                                {
-                                                    id: 'one-id-fake',
-                                                    name: 'YouPlatform',
-                                                    type: 'social',
-                                                },
-                                                {
-                                                    id: 'other-id-fake',
-                                                    name: 'OtherPlatform',
-                                                    type: 'e-commerce',
-                                                }
-                                            ]);
+                                            resolv(elemets);
                                         });
                                     }
                                 }
