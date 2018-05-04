@@ -156,7 +156,6 @@ describe('The platform service fail', () => {
 // MOCK
 
 function promiseReject() {
-
     return new Promise((resolv, reject) => {
         reject({
             code: 500,
@@ -203,7 +202,6 @@ function successObject() {
 }
 
 function notFoundObject() {
-
     return new Promise((resolv) => {
         resolv({
                 collection: () => {
@@ -227,7 +225,6 @@ function notFoundObject() {
 }
 
 function failObject() {
-
     return new Promise((resolv) => {
         resolv({
                 collection: () => {

@@ -6,4 +6,4 @@ services:
         volumes:
           - "./src:/src/app"
         ports:
-          - "3000:3000"
+          - "3000:3002"
